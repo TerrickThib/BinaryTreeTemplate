@@ -58,5 +58,66 @@ private:
 	TreeNode<T>* m_right;
 };
 
+template<typename T>
+inline void TreeNode<T>::draw(int x, int y, bool selected)
+{
+	//Creates an array to store the string representation of the value
+	static char buffer[10];
 
+	//Converts the value to a string and stores it in the array
+	sprintf(buffer, "%d", m_value);
 
+	//Draws the circle to repersent the node
+	DrawCircle(x, y, 30, YELLOW);
+
+	//If the node is the current selected node change its color.  
+	if (selected)
+		DrawCircle(x, y, 28, GREEN);
+	else
+		DrawCircle(x, y, 28, BLACK);
+
+	//Draw the value of the node inside its circle	
+	DrawText(buffer, x - 12, y - 12, 12, WHITE);
+}
+
+template<typename T>
+inline TreeNode<T>::TreeNode(T value)
+{
+}
+
+template<typename T>
+inline bool TreeNode<T>::hasLeft()
+{
+	if (m_value > m_left)
+	{
+		return m_left;
+	}
+	else
+		return nullptr;
+}
+
+template<typename T>
+inline bool TreeNode<T>::hasRight()
+{
+	if (m_value < m_right)
+	{
+		return m_right;
+	}
+	else
+		return nullptr;
+}
+
+template<typename T>
+inline T TreeNode<T>::getData()
+{
+	return T(m_value);
+}
+
+template<typename T>
+inline TreeNode<T>* TreeNode<T>::getLeft()
+{
+	if (TreeNode->value > m_left)
+	{
+		return TreeNode->m_left;
+	}
+}

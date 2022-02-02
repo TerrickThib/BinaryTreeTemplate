@@ -1,7 +1,8 @@
 #ifndef _BINARYTREE_H_
 #define _BINARYTREE_H_
-
 #pragma once
+#include "TreeNode.h"
+
 template<typename T>
 class TreeNode;
 
@@ -51,3 +52,51 @@ private:
 };
 
 #endif
+
+template<typename T>
+inline BinaryTree<T>::BinaryTree()
+{
+
+}
+
+template<typename T>
+inline BinaryTree<T>::~BinaryTree()
+{
+}
+
+template<typename T>
+inline void BinaryTree<T>::draw(TreeNode<T>* selected)
+{
+	draw(m_root, 400, 40, 400, selected);
+}
+
+template<typename T>
+inline void BinaryTree<T>::draw(TreeNode<T>*, int x, int y, int horizontalSpacing, TreeNode<T>* selected)
+{
+	//Decrease the horizontal space as the nodes draw
+	horizontalSpacing /= 2;
+
+	//Check if the current node is null
+	if (currentNode)
+	{
+		//Draws the left child if this node has one
+		if (currentNode->hasLeft())
+		{
+			//Draws a line betwenn the left child and the current node
+			DrawLine(x, y, x - horizontalSpacing, y + 80, RED);
+			//Draws the left child
+			draw(currentNode->getLeft(), x - horizontalSpacing, y + 80, horizontalSpacing, selected);
+		}
+
+		//Draws the right child if this node has one
+		if (currentNode->hasRight())
+		{
+			//Draws a line between this child and the current node
+			DrawLine(x, y, x + horizontalSpacing, y + 80, RED);
+			//Draws the right child
+			draw(currentNode->getRight(), x + horizontalSpacing, y + 80, horizontalSpacing, selected);
+		}
+		//Draws the current node
+		currentNode->draw(x, y(selected == currentNode));
+	}
+}
