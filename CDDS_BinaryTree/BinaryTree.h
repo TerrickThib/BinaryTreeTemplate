@@ -46,7 +46,7 @@ private:
 	/// <returns>Whether or not a node matching the value could be found</returns>
 	bool findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent);
 
-	void draw(TreeNode<T>*, int x, int y, int horizontalSpacing, TreeNode<T>* selected = nullptr);
+	void draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected = nullptr);
 
 	TreeNode<T>* m_root = nullptr;
 };
@@ -65,13 +65,41 @@ inline BinaryTree<T>::~BinaryTree()
 }
 
 template<typename T>
+inline bool BinaryTree<T>::isEmpty() const
+{
+	return false;
+}
+
+template<typename T>
+inline void BinaryTree<T>::insert(T value)
+{
+}
+
+template<typename T>
+inline void BinaryTree<T>::remove(T value)
+{
+}
+
+template<typename T>
+inline TreeNode<T>* BinaryTree<T>::find(T value)
+{
+	return NULL;
+}
+
+template<typename T>
 inline void BinaryTree<T>::draw(TreeNode<T>* selected)
 {
 	draw(m_root, 400, 40, 400, selected);
 }
 
 template<typename T>
-inline void BinaryTree<T>::draw(TreeNode<T>*, int x, int y, int horizontalSpacing, TreeNode<T>* selected)
+inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent)
+{
+	return false;
+}
+
+template<typename T>
+inline void BinaryTree<T>::draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected)
 {
 	//Decrease the horizontal space as the nodes draw
 	horizontalSpacing /= 2;
@@ -97,6 +125,6 @@ inline void BinaryTree<T>::draw(TreeNode<T>*, int x, int y, int horizontalSpacin
 			draw(currentNode->getRight(), x + horizontalSpacing, y + 80, horizontalSpacing, selected);
 		}
 		//Draws the current node
-		currentNode->draw(x, y(selected == currentNode));
+		currentNode->draw(x,y,(selected == currentNode));
 	}
 }

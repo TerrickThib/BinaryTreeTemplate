@@ -88,23 +88,23 @@ inline TreeNode<T>::TreeNode(T value)
 template<typename T>
 inline bool TreeNode<T>::hasLeft()
 {
-	if (m_value > m_left)
+	if (m_left != nullptr)
 	{
-		return m_left;
+		return true;
 	}
 	else
-		return nullptr;
+		return false;
 }
 
 template<typename T>
 inline bool TreeNode<T>::hasRight()
 {
-	if (m_value < m_right)
+	if (m_right != nullptr)
 	{
-		return m_right;
+		return true;
 	}
 	else
-		return nullptr;
+		return false;
 }
 
 template<typename T>
@@ -116,8 +116,29 @@ inline T TreeNode<T>::getData()
 template<typename T>
 inline TreeNode<T>* TreeNode<T>::getLeft()
 {
-	if (TreeNode->value > m_left)
-	{
-		return TreeNode->m_left;
-	}
+	return m_left;
+}
+
+template<typename T>
+inline TreeNode<T>* TreeNode<T>::getRight()
+{
+	return m_right;
+}
+
+template<typename T>
+inline void TreeNode<T>::setData(T value)
+{
+	return m_value;
+}
+
+template<typename T>
+inline void TreeNode<T>::setLeft(TreeNode<T>* node)
+{
+	m_left = node;
+}
+
+template<typename T>
+inline void TreeNode<T>::setRight(TreeNode<T>* node)
+{
+	m_right = node;
 }
