@@ -6,7 +6,7 @@ class TreeNode
 public:
 	TreeNode() {};
 	TreeNode(T value);
-	~TreeNode() {};
+	~TreeNode();
 
 	/// <summary>
 	/// Returns whether or not this node has a left child
@@ -83,6 +83,16 @@ inline void TreeNode<T>::draw(int x, int y, bool selected)
 template<typename T>
 inline TreeNode<T>::TreeNode(T value)
 {
+	m_left = nullptr;
+	m_right = nullptr;
+	m_value = value;
+}
+
+template<typename T>
+inline TreeNode<T>::~TreeNode()
+{
+	delete m_left;
+	delete m_right;
 }
 
 template<typename T>
