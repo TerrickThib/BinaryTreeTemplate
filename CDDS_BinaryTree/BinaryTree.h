@@ -56,9 +56,13 @@ private:
 template<typename T>
 inline bool BinaryTree<T>::isEmpty() const
 {
-	if (m_root != nullptr)
+	if (m_root == nullptr)//If there is is a root return root
 	{
-		return m_root;
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
@@ -68,19 +72,41 @@ inline void BinaryTree<T>::insert(T value)
 	//Crerates a new node and a current node
 	TreeNode<T>* m_newnode = new TreeNode<T>(value);
 	TreeNode<T>* m_currentnode = new TreeNode<T>();
+	bool stop = false;
 
 	//Checks if there is a node in the tree if not set new node to be that root
 	if (isEmpty())
 	{
 		m_root = m_newnode;
+		return;
+		stop = true;
 	}
 	m_currentnode = m_root;
 
-	while (!isEmpty())
+	while (stop == false)
 	{
-		if(m_left-> != nullptr)
-		{ }
+		if (m_currentnode->getData() > m_newnode->getData())//If current node is greater than new node
+		{
+			if (m_currentnode->getLeft() && m_currentnode->getLeft()->getData() > m_newnode->getData())//If the current node has a left //If current node is greater then set new node to be left
+			{			
+					m_currentnode = m_currentnode->getLeft();
+					m_currentnode->setLeft(m_newnode);
+			
+			}
+			else if (!m_currentnode->getLeft())
+			{
+				m_currentnode->setLeft(m_newnode);
+			}
+			stop = true;
+		}
+
+		if (m_currentnode->getData() < m_newnode->getData())
+		{
+			m_currentnode->setRight(m_newnode);
+			stop = true;
+		}
 	}
+	
 }
 
 template<typename T>
