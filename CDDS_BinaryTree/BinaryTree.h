@@ -72,6 +72,8 @@ inline void BinaryTree<T>::insert(T value)
 	//Crerates a new node and a current node
 	TreeNode<T>* m_newnode = new TreeNode<T>(value);
 	TreeNode<T>* m_currentnode = new TreeNode<T>();
+	TreeNode<T>* parent = new TreeNode<T>();
+
 	bool stop = false;
 
 	//Checks if there is a node in the tree if not set new node to be that root
@@ -85,25 +87,24 @@ inline void BinaryTree<T>::insert(T value)
 
 	while (stop == false)
 	{
+		parent = m_currentnode;
 		if (m_currentnode->getData() > m_newnode->getData())//If current node is greater than new node
 		{
-			if (m_currentnode->getLeft() && m_currentnode->getLeft()->getData() > m_newnode->getData())//If the current node has a left //If current node is greater then set new node to be left
-			{			
-					m_currentnode = m_currentnode->getLeft();
-					m_currentnode->setLeft(m_newnode);
+			parent->setLeft(m_newnode);
+			m_currentnode = parent->getLeft();
 			
-			}
-			else if (!m_currentnode->getLeft())
-			{
-				m_currentnode->setLeft(m_newnode);
-			}
-			stop = true;
+			//if (m_currentnode->hasLeft() && m_currentnode->getLeft()->getData() > m_newnode->getData())//If the current node has a left //If current node is greater then set new node to be left
+			//{
+			//	parent = m_currentnode;
+			//	m_currentnode->setLeft(m_newnode);
+			//}
 		}
+		stop = true;
 
 		if (m_currentnode->getData() < m_newnode->getData())
 		{
 			m_currentnode->setRight(m_newnode);
-			stop = true;
+	
 		}
 	}
 	
