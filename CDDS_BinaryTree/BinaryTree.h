@@ -70,41 +70,59 @@ template<typename T>
 inline void BinaryTree<T>::insert(T value)
 {
 	//Crerates a new node and a current node
-	TreeNode<T>* m_newnode = new TreeNode<T>(value);
-	TreeNode<T>* m_currentnode = new TreeNode<T>();
-	TreeNode<T>* parent = new TreeNode<T>();
+	TreeNode<T>* newNode = new TreeNode<T>(value);
+	TreeNode<T>* currentNode = new TreeNode<T>();
 
 	bool stop = false;
 
 	//Checks if there is a node in the tree if not set new node to be that root
 	if (isEmpty())
 	{
-		m_root = m_newnode;
-		return;
+		m_root = newNode;
 		stop = true;
 	}
-	m_currentnode = m_root;
+	currentNode = m_root;
 
-	while (stop == false)
+	while (!stop)
 	{
-		parent = m_currentnode;
-		if (m_currentnode->getData() > m_newnode->getData())//If current node is greater than new node
+		if (newNode->getData() > currentNode->getData())//If current node is lessthan than new node
 		{
-			parent->setLeft(m_newnode);
-			m_currentnode = parent->getLeft();
-			
-			//if (m_currentnode->hasLeft() && m_currentnode->getLeft()->getData() > m_newnode->getData())//If the current node has a left //If current node is greater then set new node to be left
-			//{
-			//	parent = m_currentnode;
-			//	m_currentnode->setLeft(m_newnode);
-			//}
-		}
-		stop = true;
+			/// <summary>
+			/// If currentNode has a right current node is that right
+			/// </summary>
+			if (currentNode->hasRight())
+			{
+				currentNode = currentNode->getRight();
+			}
 
-		if (m_currentnode->getData() < m_newnode->getData())
+			/// <summary>
+			/// If currentNode doesnt have a right and new node is greater than current node set new node right of currentnode
+			/// </summary>
+			if (!currentNode->hasRight() && newNode->getData() > currentNode->getData())
+			{
+				currentNode->setRight(newNode);
+				stop = true;
+			}
+		}
+
+		if (newNode->getData() < currentNode->getData())//If the current node is greater than the new node
 		{
-			m_currentnode->setRight(m_newnode);
-	
+			/// <summary>
+			/// If currentNode has a left current node is that left
+			/// </summary>
+			if (currentNode->hasLeft())
+			{
+				currentNode = currentNode->getLeft();
+			}
+			
+			/// <summary>
+			/// If currentNode doesnt have a left and new node is less than current node set new node left of currentnode
+			/// </summary>
+			if (!currentNode->hasLeft() && newNode->getData() < currentNode->getData())
+			{
+				currentNode->setLeft(newNode);
+				stop = true;
+			}
 		}
 	}
 	
