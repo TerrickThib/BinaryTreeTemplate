@@ -131,6 +131,10 @@ inline void BinaryTree<T>::insert(T value)
 template<typename T>
 inline void BinaryTree<T>::remove(T value)
 {
+	TreeNode<T>* currentNode = new TreeNode<T>();
+	TreeNode<T>* parentNode = new TreeNode<T>();
+	TreeNode<T>* removedNode = new TreeNode<T>();
+
 
 }
 
