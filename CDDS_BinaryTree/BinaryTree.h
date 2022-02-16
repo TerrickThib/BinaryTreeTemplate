@@ -131,10 +131,111 @@ inline void BinaryTree<T>::insert(T value)
 template<typename T>
 inline void BinaryTree<T>::remove(T value)
 {
-	TreeNode<T>* currentNode = new TreeNode<T>();
-	TreeNode<T>* parentNode = new TreeNode<T>();
-	TreeNode<T>* removedNode = new TreeNode<T>();
+	TreeNode<T>* currentNode = nullptr;
+	TreeNode<T>* parentNode = nullptr;
+	TreeNode<T>* nodeTobeRemoved = nullptr;
 
+	//Checks to see if the node is in the list, 
+	if (!findNode(value, nodeTobeRemoved, parentNode))
+		return;//Will return if the node isnt in the list
+
+	//If the node to be removed has a right set current node to be that right
+	if (nodeTobeRemoved->hasRight())
+	{
+		currentNode = nodeTobeRemoved->getRight();
+
+		if (currentNode->hasLeft())//If the current node has a left set parent node to current node
+		{
+			parentNode = currentNode;
+
+			bool searching = true;//To stop loop if false
+
+			while (searching == true)
+			{
+				if (parentNode->getLeft()->hasLeft())//If parents left has a Left set parent to parents left
+				{
+					parentNode = parentNode->getLeft();
+				}
+
+				else
+				{
+					currentNode = parentNode->getLeft();//Set current node to be parents left
+					searching = false; //Exits the while loop
+				}
+			}
+
+			//Sets the node to be removed data to what current node is
+			nodeTobeRemoved->setData(currentNode->getData());
+			parentNode->setLeft(currentNode->getRight());//sets parents left to be current nodes right
+			delete currentNode;//Then deletes current node
+		}
+
+		else
+		{
+			nodeTobeRemoved->setData(currentNode->getData());//Sets the node to be reomved to be the same as current node
+
+			if (currentNode->hasRight())
+			{
+				nodeTobeRemoved->setRight(currentNode->getRight());//nodeTobeRemoved is set to current nodes right
+			}
+			else
+			{
+				nodeTobeRemoved->setRight(nullptr);//If current node doesnt have a right set right to be null ptr
+			}
+			delete currentNode;//Delete currentnode
+		}
+	}
+	else
+	{
+		if (parentNode)
+		{
+			if (nodeTobeRemoved->hasLeft())//If the node has a left 
+			{
+				currentNode = nodeTobeRemoved->getLeft();//Set current node yo node to be removed
+				if (currentNode->getRight() == nodeTobeRemoved)//If currrent nodes right is node to be removed
+				{
+					parentNode->setRight(currentNode);//Set parents right to be currentnode
+				}
+				else if (currentNode->getLeft() == nodeTobeRemoved)//If current nodes left is node to be removed
+				{
+					parentNode->setLeft(currentNode);//Set parents left to be current node
+				}
+				delete nodeTobeRemoved;//Delete node to be removed then return
+				return;
+			}
+
+			else
+			{
+				if (parentNode->getLeft() == nodeTobeRemoved)//If parents left is the node to be removed 
+				{
+					parentNode->setLeft(nullptr);//Then parents left will be null
+				}
+
+				else if (parentNode->getRight() == nodeTobeRemoved)//If Parents Right is the node to be removed
+				{
+					parentNode->setRight(nullptr);//Then parents  right wil be null
+				}
+				delete nodeTobeRemoved;
+			}
+		}
+
+		else
+		{
+			if (nodeTobeRemoved->hasLeft())//If node to be removed has a left
+			{
+				currentNode = nodeTobeRemoved->getLeft();//Set current node to node to be removed
+				m_root = currentNode;//set root to be currentnode
+				delete nodeTobeRemoved;
+				return;
+			}
+			else
+			{
+				delete nodeTobeRemoved;
+				m_root = nullptr;
+			}
+		}
+		delete currentNode;
+	}
 
 }
 
@@ -186,7 +287,7 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 	TreeNode<T>* currentNode = m_root;
 	TreeNode<T>* nodeparent = m_root;
 
-	while (searching)
+	while (searching == true)
 	{
 		if (searchValue > currentNode->getData())//If the value is greater then current node check if it has a right
 		{
@@ -196,8 +297,8 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 				nodeparent = currentNode;
 				currentNode = currentNode->getRight();
 			}
-			else if
-				break;
+			else 
+				searching == false;
 		}
 
 		if (searchValue < currentNode->getData())//If the value is less then current node check if it has a right
@@ -207,15 +308,15 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 				nodeparent = currentNode;
 				currentNode = currentNode->getLeft();
 			}
-			else if
-				break;
+			else 
+				searching == false;
 		}
 
 		if (searchValue == currentNode->getData())//IF the value is equal to the currrent node set node found to it and break
 		{
 			nodeFound = currentNode;
 			return true;
-			break;
+			searching == false;
 		}
 	}
 }

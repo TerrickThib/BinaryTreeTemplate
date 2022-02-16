@@ -138,7 +138,7 @@ inline TreeNode<T>* TreeNode<T>::getRight()
 template<typename T>
 inline void TreeNode<T>::setData(T value)
 {
-	return m_value;
+	m_value = value;
 }
 
 template<typename T>
