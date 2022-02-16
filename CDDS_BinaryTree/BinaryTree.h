@@ -150,7 +150,7 @@ inline void BinaryTree<T>::remove(T value)
 
 			bool searching = true;//To stop loop if false
 
-			while (searching == true)
+			while (searching)
 			{
 				if (parentNode->getLeft()->hasLeft())//If parents left has a Left set parent to parents left
 				{
@@ -191,7 +191,7 @@ inline void BinaryTree<T>::remove(T value)
 		{
 			if (nodeTobeRemoved->hasLeft())//If the node has a left 
 			{
-				currentNode = nodeTobeRemoved->getLeft();//Set current node yo node to be removed
+				currentNode = nodeTobeRemoved->getLeft();//Set current node to node to be removed
 				if (currentNode->getRight() == nodeTobeRemoved)//If currrent nodes right is node to be removed
 				{
 					parentNode->setRight(currentNode);//Set parents right to be currentnode
@@ -282,57 +282,56 @@ inline void BinaryTree<T>::draw(TreeNode<T>* selected)
 template<typename T>
 inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent)
 {
-	bool searching = true;
-	//Sets both the parent and current node to be the root
-	TreeNode<T>* currentNode = m_root;
-	TreeNode<T>* nodeparent = m_root;
-
-	if (m_root == nullptr)
+	if(m_root == nullptr)
 	{
 		return false;
 	}
+	bool searching = true;
+	//Sets both the parent and current node to be the root
+	TreeNode<T>* currentNode = m_root;
+	TreeNode<T>* parent = m_root;
 
-	while (searching == true)
+	while (searching)
 	{
 		if (searchValue > currentNode->getData())//If the value is greater then current node check if it has a right
 		{
 			if (currentNode->hasRight())
 			{
 				//If it has a right make parent the current node the change current node the the right node.
-				nodeparent = currentNode;
+				parent = currentNode;
 				currentNode = currentNode->getRight();
 			}
 			else 
-				searching == false;
+				searching = false;
 		}
 
-		if (searchValue < currentNode->getData())//If the value is less then current node check if it has a right
+		else if(searchValue < currentNode->getData())//If the value is less then current node check if it has a right
 		{
 			if (currentNode->hasLeft())
 			{
-				nodeparent = currentNode;
+				parent = currentNode;
 				currentNode = currentNode->getLeft();
 			}
 			else 
-				searching == false;
+				searching = false;
 		}
 
-		if (searchValue == currentNode->getData())//IF the value is equal to the currrent node set node found to it
+		else if(searchValue == currentNode->getData())//IF the value is equal to the currrent node set node found to it
 		{
 			nodeFound = currentNode;
 
-			if (nodeparent->getData() == nodeFound->getData())//If node parent is equal to node found
+			if (parent->getData() == nodeFound->getData())//If node parent is equal to node found
 			{
-				nodeparent = nullptr;//nodeparent is nullptr
+				nodeParent == nullptr;//nodeparent is nullptr
 			}
 			else
 			{
-				nodeParent = currentNode;//else nodeParent = current node and return true
+				nodeParent = parent;//else nodeParent = current node and return true
 				return true;
 			}
 		}
-		return false;
 	}
+	return false;
 }
 
 template<typename T>
