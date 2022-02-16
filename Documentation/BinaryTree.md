@@ -22,7 +22,10 @@ The creation of a Binary Tree that allows the user to insert numbers that will b
 - Takes in user option to insert or remove  
 
 **Output Information**  
-- 
+- The users value where it will fit based on the root  
+- Displays Bianary tree based on values inputed and removed  
+
+**User Interface Information**
 
 
 
