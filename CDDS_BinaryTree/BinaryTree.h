@@ -291,7 +291,7 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 	TreeNode<T>* currentNode = m_root;
 	TreeNode<T>* parent = m_root;
 
-	while (searching)
+	while (searching == true)
 	{
 		if (searchValue > currentNode->getData())//If the value is greater then current node check if it has a right
 		{
