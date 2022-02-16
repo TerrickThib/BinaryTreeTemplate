@@ -287,6 +287,11 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 	TreeNode<T>* currentNode = m_root;
 	TreeNode<T>* nodeparent = m_root;
 
+	if (m_root == nullptr)
+	{
+		return false;
+	}
+
 	while (searching == true)
 	{
 		if (searchValue > currentNode->getData())//If the value is greater then current node check if it has a right
@@ -312,28 +317,37 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 				searching == false;
 		}
 
-		if (searchValue == currentNode->getData())//IF the value is equal to the currrent node set node found to it and break
+		if (searchValue == currentNode->getData())//IF the value is equal to the currrent node set node found to it
 		{
 			nodeFound = currentNode;
-			return true;
-			searching == false;
+
+			if (nodeparent->getData() == nodeFound->getData())//If node parent is equal to node found
+			{
+				nodeparent = nullptr;//nodeparent is nullptr
+			}
+			else
+			{
+				nodeParent = currentNode;//else nodeParent = current node and return true
+				return true;
+			}
 		}
+		return false;
 	}
 }
 
 template<typename T>
 inline void BinaryTree<T>::draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected)
 {
-	//Decrease the horizontal space as the nodes draw
+	//Decrease the horizontal space as the node
 	horizontalSpacing /= 2;
 
-	//Check if the current node is null
+	//Checks if the current node is null
 	if (currentNode)
 	{
 		//Draws the left child if this node has one
 		if (currentNode->hasLeft())
 		{
-			//Draws a line betwenn the left child and the current node
+			//Draws a line between the left child and the current one
 			DrawLine(x, y, x - horizontalSpacing, y + 80, RED);
 			//Draws the left child
 			draw(currentNode->getLeft(), x - horizontalSpacing, y + 80, horizontalSpacing, selected);
@@ -348,6 +362,6 @@ inline void BinaryTree<T>::draw(TreeNode<T>* currentNode, int x, int y, int hori
 			draw(currentNode->getRight(), x + horizontalSpacing, y + 80, horizontalSpacing, selected);
 		}
 		//Draws the current node
-		currentNode->draw(x,y,(selected == currentNode));
+		currentNode->draw(x, y, (selected == currentNode));
 	}
 }
