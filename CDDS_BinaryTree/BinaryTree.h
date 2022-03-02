@@ -96,9 +96,9 @@ inline void BinaryTree<T>::insert(T value)
 			}
 
 			/// <summary>
-			/// If currentNode doesnt have a right and new node is greater than current node set new node right of currentnode
+			/// else currentNode doesnt have a right and new node is greater than current node set new node right of currentnode
 			/// </summary>
-			if (!currentNode->hasRight() && newNode->getData() > currentNode->getData())
+			else
 			{
 				currentNode->setRight(newNode);
 				stop = true;
@@ -116,13 +116,19 @@ inline void BinaryTree<T>::insert(T value)
 			}
 			
 			/// <summary>
-			/// If currentNode doesnt have a left and new node is less than current node set new node left of currentnode
+			/// else currentNode doesnt have a left and new node is less than current node set new node left of currentnode
 			/// </summary>
-			if (!currentNode->hasLeft() && newNode->getData() < currentNode->getData())
+			else
 			{
 				currentNode->setLeft(newNode);
 				stop = true;
 			}
+		}
+		
+		//If new nodes data is the same as the currents 
+		if (newNode->getData() == currentNode->getData())
+		{
+			stop = true;
 		}
 	}
 	
