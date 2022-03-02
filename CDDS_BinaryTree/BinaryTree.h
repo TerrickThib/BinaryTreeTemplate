@@ -152,8 +152,7 @@ inline void BinaryTree<T>::remove(T value)
 	if (!findNode(value, nodeTobeRemoved, parentNode))
 		return;//Will return if the node isnt in the list
 
-	//If the node to be removed has a right set current node to be that right
-	if (nodeTobeRemoved->hasRight())
+	if (nodeTobeRemoved->hasLeft() && nodeTobeRemoved->hasRight())
 	{
 		currentNode = nodeTobeRemoved->getRight();
 
@@ -185,6 +184,55 @@ inline void BinaryTree<T>::remove(T value)
 
 		else
 		{
+			currentNode = nodeTobeRemoved->getLeft();
+			nodeTobeRemoved->setData(currentNode->getData());//Sets the node to be reomved to be the same as current node
+
+			if (currentNode->hasLeft())
+			{
+				nodeTobeRemoved->setLeft(currentNode->getLeft());//nodeTobeRemoved is set to current nodes right
+			}
+			else
+			{
+				nodeTobeRemoved->setLeft(nullptr);//If current node doesnt have a right set right to be null ptr
+				delete currentNode;
+			}
+		}
+	}
+
+	//If the node to be removed has a right set current node to be that right
+	else if (nodeTobeRemoved->hasRight() && !nodeTobeRemoved->hasLeft())
+	{
+		currentNode = nodeTobeRemoved->getRight();
+
+		if (currentNode->hasLeft())//If the current node has a left set parent node to current node
+		{
+			parentNode = currentNode;
+
+			bool searching = true;//To stop loop if false
+
+			while (searching)
+			{
+				if (parentNode->getLeft()->hasLeft())//If parents left has a Left set parent to parents left
+				{
+					parentNode = parentNode->getLeft();
+				}
+
+				else
+				{
+					currentNode = parentNode->getLeft();//Set current node to be parents left
+					searching = false; //Exits the while loop
+				}
+			}
+
+			//Sets the node to be removed data to what current node is
+			nodeTobeRemoved->setData(currentNode->getData());
+			parentNode->setLeft(currentNode->getRight());//sets parents left to be current nodes right
+			delete currentNode;//Then deletes current node
+		}
+
+		else
+		{
+			
 			nodeTobeRemoved->setData(currentNode->getData());//Sets the node to be reomved to be the same as current node
 
 			if (currentNode->hasRight())
@@ -194,15 +242,16 @@ inline void BinaryTree<T>::remove(T value)
 			else
 			{
 				nodeTobeRemoved->setRight(nullptr);//If current node doesnt have a right set right to be null ptr
+				delete currentNode;
 			}
-			delete currentNode;//Delete currentnode
+
 		}
 	}
 	else
 	{
 		if (parentNode)
 		{
-			if (nodeTobeRemoved->hasLeft())//If the node has a left 
+			if (nodeTobeRemoved->hasLeft() && !nodeTobeRemoved->hasRight())//If the node has a left 
 			{
 				currentNode = nodeTobeRemoved->getLeft();//Set current node to node to be removed
 				if (currentNode->getLeft() == nodeTobeRemoved)//If currrent nodes right is node to be removed
